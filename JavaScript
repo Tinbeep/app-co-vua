@@ -1,0 +1,150 @@
+var board = null;
+var game = new Chess();
+var timerWhite = 300; // 5 phút
+var timerBlack = 300;
+var timerInterval = null;
+var activeColor = 'w';
+
+function onDragStart (source, piece, position, orientation) {
+    if (game.game_over()) return false;
+
+    // Không cho kéo quân cờ của đối phương
+    if ((game.turn() === 'w' && piece.search(/^b/) !== -1) ||
+        (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
+        return false;
+    }
+}
+
+function onDrop (source, target) {
+    var move = game.move({
+        from: source,
+        to: target,
+        promotion: 'q'
+    });
+
+    if (move === null) return 'snapback';
+
+    updateGameUI();
+    switchTimer();
+}
+
+function onSnapEnd () {
+    board.position(game.fen());
+}
+
+function updateGameUI() {
+    updateStatus();
+    updatePGN();
+}
+
+function updateStatus() {
+    var statusText = '';
+    var moveColor = (game.turn() === 'w') ? 'Trắng' : 'Đen';
+
+    if (game.in_checkmate()) {
+        statusText = 'Chiếu bí! ' + (game.turn() === 'w' ? 'Đen' : 'Trắng') + ' thắng!';
+        stopTimer();
+    } else if (game.in_draw()) {
+        statusText = 'Hòa cờ!';
+        stopTimer();
+    } else {
+        statusText = 'Lượt của: ' + moveColor;
+        if (game.in_check()) {
+            statusText += ' (Đang bị chiếu!)';
+        }
+    }
+
+    $('#status').text(statusText);
+}
+
+function updatePGN() {
+    var history = game.history();
+    var pgnHTML = '';
+    for (var i = 0; i < history.length; i += 2) {
+        var moveNum = (i / 2) + 1;
+        var whiteMove = history[i] || '';
+        var blackMove = history[i + 1] || '';
+        pgnHTML += `<div><strong>${moveNum}.</strong> ${whiteMove} ${blackMove}</div>`;
+    }
+    $('#pgn-log').html(pgnHTML);
+    $('#pgn-log').scrollTop($('#pgn-log')[0].scrollHeight);
+}
+
+// Đồng hồ bấm giờ
+function startTimer() {
+    stopTimer();
+    timerInterval = setInterval(function() {
+        if (game.turn() === 'w') {
+            timerWhite--;
+            if (timerWhite <= 0) {
+                stopTimer();
+                $('#status').text('Hết giờ! Đen thắng!');
+            }
+        } else {
+            timerBlack--;
+            if (timerBlack <= 0) {
+                stopTimer();
+                $('#status').text('Hết giờ! Trắng thắng!');
+            }
+        }
+        renderTimers();
+    }, 1000);
+}
+
+function stopTimer() {
+    clearInterval(timerInterval);
+}
+
+function switchTimer() {
+    if (game.turn() === 'w') {
+        $('#timer-white').addClass('active');
+        $('#timer-black').removeClass('active');
+    } else {
+        $('#timer-black').addClass('active');
+        $('#timer-white').removeClass('active');
+    }
+}
+
+function renderTimers() {
+    $('#timer-white').text(formatTime(timerWhite));
+    $('#timer-black').text(formatTime(timerBlack));
+}
+
+function formatTime(seconds) {
+    var min = Math.floor(seconds / 60);
+    var sec = seconds % 60;
+    return (min < 10 ? '0' : '') + min + ':' + (sec < 10 ? '0' : '') + sec;
+}
+
+// Khởi tạo Bàn cờ
+var config = {
+    draggable: true,
+    position: 'start',
+    onDragStart: onDragStart,
+    onDrop: onDrop,
+    onSnapEnd: onSnapEnd
+};
+board = Chessboard('board', config);
+
+// Nút bấm điều khiển
+$('#btn-start').on('click', function() {
+    game.reset();
+    board.start();
+    timerWhite = 300;
+    timerBlack = 300;
+    renderTimers();
+    updateGameUI();
+    startTimer();
+    $('#timer-white').addClass('active');
+    $('#timer-black').removeClass('active');
+});
+
+$('#btn-undo').on('click', function() {
+    game.undo();
+    board.position(game.fen());
+    updateGameUI();
+});
+
+$('#btn-flip').on('click', function() {
+    board.flip();
+});
