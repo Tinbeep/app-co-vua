@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess Arena v1</title>
+    
+    <!-- Chessboard CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="arena-container">
+        <!-- Bảng điều khiển bên trái / Bàn cờ -->
+        <div class="board-section">
+            <!-- Player Trên (Đen) -->
+            <div class="player-card black-player">
+                <div class="player-info">
+                    <i class="fa-solid fa-user-ninja avatar"></i>
+                    <div>
+                        <div class="player-name">Đối thủ (Đen)</div>
+                        <div class="captured-pieces" id="captured-black"></div>
+                    </div>
+                </div>
+                <div class="timer" id="timer-black">05:00</div>
+            </div>
+
+            <!-- Bàn cờ -->
+            <div id="board" class="board"></div>
+
+            <!-- Player Dưới (Trắng) -->
+            <div class="player-card white-player">
+                <div class="player-info">
+                    <i class="fa-solid fa-user-astronaut avatar"></i>
+                    <div>
+                        <div class="player-name">Bạn (Trắng)</div>
+                        <div class="captured-pieces" id="captured-white"></div>
+                    </div>
+                </div>
+                <div class="timer active" id="timer-white">05:00</div>
+            </div>
+        </div>
+
+        <!-- Bảng thông tin & Lịch sử nước đi bên phải -->
+        <div class="sidebar-section">
+            <div class="arena-header">
+                <h2><i class="fa-solid fa-trophy"></i> CHESS ARENA v1</h2>
+                <div id="status" class="status-badge">Sẵn sàng thi đấu</div>
+            </div>
+
+            <div class="move-history">
+                <h3>Lịch sử nước đi</h3>
+                <div id="pgn-log" class="pgn-log"></div>
+            </div>
+
+            <div class="controls">
+                <button id="btn-start" class="btn btn-primary"><i class="fa-solid fa-play"></i> Bắt đầu mới</button>
+                <button id="btn-undo" class="btn btn-secondary"><i class="fa-solid fa-rotate-left"></i> Đi lại</button>
+                <button id="btn-flip" class="btn btn-secondary"><i class="fa-solid fa-repeat"></i> Đổi góc nhìn</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CDN Thư viện cần thiết -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
