@@ -1,0 +1,177 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #1e1e2f;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.arena-container {
+    display: flex;
+    gap: 25px;
+    background: #27293d;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    max-width: 950px;
+    width: 100%;
+}
+
+.board-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.board {
+    width: 480px;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.player-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background: #1e1e2f;
+    padding: 10px 15px;
+    border-radius: 8px;
+}
+
+.player-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar {
+    font-size: 1.8rem;
+    color: #00f2c3;
+}
+
+.player-name {
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.timer {
+    background: #34344e;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    font-family: monospace;
+    letter-spacing: 1px;
+}
+
+.timer.active {
+    background: #e14eca;
+    color: #fff;
+    box-shadow: 0 0 10px rgba(225, 78, 202, 0.5);
+}
+
+.sidebar-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.arena-header h2 {
+    font-size: 1.3rem;
+    color: #00f2c3;
+    margin-bottom: 10px;
+}
+
+.status-badge {
+    background: #1d8cf8;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-align: center;
+}
+
+.move-history {
+    background: #1e1e2f;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 15px 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.move-history h3 {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    color: #ba54f5;
+}
+
+.pgn-log {
+    overflow-y: auto;
+    max-height: 250px;
+    font-family: monospace;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #d4d4d8;
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.btn {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-primary {
+    background: #00f2c3;
+    color: #27293d;
+}
+
+.btn-primary:hover {
+    background: #00d6ac;
+}
+
+.btn-secondary {
+    background: #34344e;
+    color: #fff;
+}
+
+.btn-secondary:hover {
+    background: #444466;
+}
+
+@media (max-width: 800px) {
+    .arena-container {
+        flex-direction: column;
+    }
+    .board {
+        width: 100%;
+        max-width: 400px;
+    }
+}
